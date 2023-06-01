@@ -6,11 +6,11 @@
 
 ### Features
 
-- Magento 2.4
+- Magento 2.4.5
 - Apache
-- PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4
-- Xdebug 2.9.8
-- MariaDB 10.4.13
+- PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.1
+- Xdebug 3.2.1
+- MariaDB 10.5.19
 - Elasticsearch 7.6
 - Varnish 6.4
 - Redis
@@ -23,6 +23,7 @@
 |7.2|1.10.17|Yes|
 |7.3|1.10.17|Yes|
 |7.4|2.*|No|
+|8.1|2.*|No|
 
 ### Requirements
 
@@ -48,20 +49,22 @@ After set run:
 sudo sysctl -p
 ```
 
-
 ### How to use
 Run all containers with command
 
 ```
 bin/start
 ```
+When being asked for authentication for repo.magento.com,
+head to your [Magento Account](https://marketplace.magento.com/customer/accessKeys/) and create a new access keys
 
+---
 To install the latest version of Magento 2:
 
 ```
 bin/shell
 rm index.php
-install-magento2
+install-magento2 2.4.5
 ```
 
 > If you want to use Varnish use `docker-compose.varnish.yml`
