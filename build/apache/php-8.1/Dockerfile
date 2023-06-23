@@ -70,7 +70,7 @@ RUN apt-get update \
 # Install Node, NVM, NPM and Grunt
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-  	&& apt-get install -y nodejs build-essential \
+  	&& apt-get install -y nodejs npm build-essential \
     && npm i -g grunt-cli yarn
 
 # Install Composer
@@ -95,7 +95,7 @@ RUN yes | pecl install xdebug-3.2.1 && \
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
    && mkdir /opt/go \
    && export GOPATH=/opt/go \
-   && go get github.com/mailhog/mhsendmail
+   && go install github.com/mailhog/mhsendmail@latest
 
 # Install Magerun 2
 
