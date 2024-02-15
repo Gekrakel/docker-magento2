@@ -6,10 +6,10 @@
 
 ### Features
 
-- Magento 2.4.5
+- Magento 2.4.6
 - Apache
-- PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.1
-- Xdebug 3.2.1
+- PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.1, PHP 8.2
+- Xdebug 3.3.1
 - MariaDB 10.5.19
 - Elasticsearch 7.6
 - Varnish 6.4
@@ -17,13 +17,14 @@
 - MailHog
 - n98-magerun
 
-| PHP Version  | Composer  | [hirak/prestissimo](https://github.com/hirak/prestissimo) |
-|---|---|---|
-|7.1|1.10.17|Yes|
-|7.2|1.10.17|Yes|
-|7.3|1.10.17|Yes|
-|7.4|2.*|No|
-|8.1|2.*|No|
+| PHP Version | Composer  | [hirak/prestissimo](https://github.com/hirak/prestissimo) |
+|-------------|---|---|
+| 7.1         |1.10.17|Yes|
+| 7.2         |1.10.17|Yes|
+| 7.3         |1.10.17|Yes|
+| 7.4         |2.*|No|
+| 8.1         |2.*|No|
+| 8.2         |2.*|No|
 
 ### Requirements
 
@@ -64,7 +65,7 @@ To install the latest version of Magento 2:
 ```
 bin/shell
 rm index.php
-install-magento2 2.4.5
+install-magento2 2.4.6.p4
 ```
 
 > If you want to use Varnish use `docker-compose.varnish.yml`

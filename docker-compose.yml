@@ -3,7 +3,7 @@ services:
   apache:
     build:
       context: .
-      dockerfile: build/apache/php-8.1/Dockerfile
+      dockerfile: build/apache/php-8.2/Dockerfile
 #    image: rifkat/magento-php-apache:7.4
     ports:
       - "80:80"
@@ -21,7 +21,7 @@ services:
     links:
       - db
     networks:
-      - <project_name>-network
+      - -network
 
   db:
     image: mariadb:10.4.13
@@ -36,21 +36,21 @@ services:
       - dbdata:/var/lib/mysql
       - ./backups:/var/tmp/backups
     networks:
-      - <project_name>-network
+      - -network
 
-  redis:
-    image: redis
-    ports:
-     - 6379
-    networks:
-      - <project_name>-network
-
-  redis-session:
-    image: redis
-    ports:
-     - 6379
-    networks:
-      - <project_name>-network
+#  redis:
+#    image: redis
+#    ports:
+#     - 6379
+#    networks:
+#      - -network
+#
+#  redis-session:
+#    image: redis
+#    ports:
+#     - 6379
+#    networks:
+#      - -network
 
   mailhog:
     image: mailhog/mailhog
@@ -58,7 +58,7 @@ services:
       - 1025:1025
       - 8025:8025
     networks:
-      - <project_name>-network
+      - -network
 
   elasticsearch:
     build:
@@ -79,10 +79,10 @@ services:
     ports:
       - 9200:9200
     networks:
-      - <project_name>-network
+      - -network
 
 networks:
-  <project_name>-network:
+  -network:
     driver: bridge
 
 volumes:
