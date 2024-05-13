@@ -66,8 +66,8 @@ RUN apt-get update \
 
 # Install Node, NVM, NPM and Grunt
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-  	&& apt-get install -y nodejs npm build-essential \
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+  	&& apt-get install -y nodejs \
     && npm i -g grunt-cli yarn
 
 # Install Composer
