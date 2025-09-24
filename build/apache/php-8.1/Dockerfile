@@ -1,17 +1,11 @@
 FROM php:8.1-apache
 
-MAINTAINER echo <echo.magento@gmail.com>
-
 ENV XDEBUG_PORT 9000
 
 # Install System Dependencies
 
 RUN apt-get update \
-	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-	software-properties-common \
-	&& apt-get update \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	nodejs \
 	libfreetype6-dev \
 	libicu-dev \
     libssl-dev \
@@ -23,7 +17,7 @@ RUN apt-get update \
 	libzip-dev \
 	apt-utils \
 	gnupg \
-	redis-tools \
+    nano \
 	mariadb-client \
 	zlib1g-dev \
 	libpng-dev \
@@ -38,6 +32,8 @@ RUN apt-get update \
 	tar \
 	cron \
 	bash-completion \
+    imagemagick \
+    libmagickwand-dev \
 	&& apt-get clean
 
 # Install Magento Dependencies
@@ -60,17 +56,20 @@ RUN docker-php-ext-configure \
 
 RUN apt-get update \
   	&& apt-get install -y \
-  	libpcre3 \
-  	libpcre3-dev \
+  	libpcre2-16-0 \
     sudo \
   	# php-pear \
   	&& pecl install oauth \
   	&& echo "extension=oauth.so" > /usr/local/etc/php/conf.d/docker-php-ext-oauth.ini
 
+# Install Imagick
+RUN pecl install imagick && \
+    docker-php-ext-enable imagick
+
 # Install Node, NVM, NPM and Grunt
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
-  	&& apt-get install -y nodejs npm build-essential \
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - \
+  	&& apt-get install -y nodejs build-essential \
     && npm i -g grunt-cli yarn
 
 # Install Composer
@@ -87,15 +86,16 @@ ENV PATH="/var/www/.composer/vendor/bin/:${PATH}"
 
 # Install XDebug
 
-RUN yes | pecl install xdebug-3.2.1 && \
+RUN yes | pecl install xdebug-3.4.5 && \
 	 echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
 
-# Install Mhsendmail
+# Install Mailpit
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install golang-go \
-   && mkdir /opt/go \
-   && export GOPATH=/opt/go \
-   && go install github.com/mailhog/mhsendmail@latest
+RUN wget https://github.com/axllent/mailpit/releases/download/v1.27.8/mailpit-linux-amd64.tar.gz \
+    && tar -xzvf mailpit-linux-amd64.tar.gz mailpit \
+    && chmod +x ./mailpit\
+    && mv ./mailpit /usr/local/bin/ \
+    && rm mailpit-linux-amd64.tar.gz
 
 # Install Magerun 2
 

@@ -8,13 +8,21 @@
 
 - Magento 2.4.6
 - Apache
-- PHP 7.1, PHP 7.2, PHP 7.3, PHP 7.4, PHP 8.1, PHP 8.2
-- Xdebug 3.3.1
-- MariaDB 10.5.19
+- PHP
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
+  - 8.1
+  - 8.2
+  - 8.3
+  - 8.4
+- Xdebug 3.4.5
+- MariaDB 10.4.13
 - Elasticsearch 7.6
 - Varnish 6.4
 - Redis
-- MailHog
+- Mailpit
 - n98-magerun
 
 | PHP Version | Composer  | [hirak/prestissimo](https://github.com/hirak/prestissimo) |
@@ -25,6 +33,8 @@
 | 7.4         |2.*|No|
 | 8.1         |2.*|No|
 | 8.2         |2.*|No|
+| 8.3         |2.*|No|
+| 8.4         |2.*|No|
 
 ### Requirements
 
