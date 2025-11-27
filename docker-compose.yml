@@ -2,11 +2,11 @@ services:
   apache:
     build:
       context: .
-      dockerfile: build/apache/php-8.2/Dockerfile
+      dockerfile: build/apache/php-8.4/Dockerfile
 #    image: rifkat/magento-php-apache:7.4
     ports:
       - "80:80"
-      - "9001:9000" # xdebug
+      - "9005:9000" # xdebug
     volumes:
       - ./src:/var/www/html
       - ~/.composer/cache:/var/www/.composer/cache
@@ -20,10 +20,10 @@ services:
     links:
       - db
     networks:
-      - -network
+      - network
 
   db:
-    image: mariadb:10.4.13
+    image: mariadb:11.4
     ports:
      - 3300:3306
     environment:
@@ -35,7 +35,7 @@ services:
       - dbdata:/var/lib/mysql
       - ./backups:/var/tmp/backups
     networks:
-      - -network
+      - network
 
 #  redis:
 #    image: redis
@@ -49,7 +49,7 @@ services:
 #    ports:
 #     - 6379
 #    networks:
-#      - -network
+#      - network
 
   mailpit:
     image: axllent/mailpit
@@ -65,33 +65,58 @@ services:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
     networks:
-      - -network
+      - network
 
-  elasticsearch:
+#  elasticsearch:
+#    build:
+#      context: .
+#      dockerfile: build/elasticsearch/Dockerfile
+#    environment:
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - node.name=node-1
+#      - cluster.initial_master_nodes=node-1
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - ./elasticsearchdata:/usr/share/elasticsearch/data
+#    ports:
+#      - 9200:9200
+#    networks:
+#      - network
+
+  opensearch: # This is also the hostname of the container within the Docker network (i.e. https://opensearch-node1/)
     build:
       context: .
-      dockerfile: build/elasticsearch/Dockerfile
+      dockerfile: build/opensearch/Dockerfile
+    container_name: opensearch
     environment:
+      - discovery.type=single-node
+      - ELASTIC_CONTAINER=true
+      - plugins.security.disabled=true
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - node.name=node-1
-      - cluster.initial_master_nodes=node-1
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Strong!Password#1
     ulimits:
       memlock:
-        soft: -1
+        soft: -1 # Set memlock to unlimited (no soft or hard limit)
         hard: -1
     volumes:
-      - ./elasticsearchdata:/usr/share/elasticsearch/data
+      - ./opensearch:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
     ports:
-      - 9200:9200
+      - 9200:9200 # REST API
     networks:
-      - -network
+      - network # All of the containers will join the same Docker bridge network
 
 networks:
-  -network:
+  network:
     driver: bridge
 
 volumes:
+  opensearch:
   dbdata:
     driver: local

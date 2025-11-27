@@ -50,7 +50,8 @@ RUN docker-php-ext-configure \
   	soap \
   	xsl \
   	zip \
-  	sockets
+  	sockets \
+	ftp
 
 # Install oAuth
 
