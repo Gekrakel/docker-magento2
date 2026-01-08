@@ -53,7 +53,6 @@ services:
 
   mailpit:
     image: axllent/mailpit
-    container_name: mailpit
     volumes:
       - ./data:/data
     ports:
@@ -92,7 +91,6 @@ services:
     build:
       context: .
       dockerfile: build/opensearch/Dockerfile
-    container_name: opensearch
     environment:
       - discovery.type=single-node
       - ELASTIC_CONTAINER=true
@@ -106,7 +104,7 @@ services:
         soft: -1 # Set memlock to unlimited (no soft or hard limit)
         hard: -1
     volumes:
-      - ./opensearch:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+      - ./opensearchdata:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
     ports:
       - 9200:9200 # REST API
     networks:
