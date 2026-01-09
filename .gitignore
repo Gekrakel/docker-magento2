@@ -3,3 +3,4 @@ src/
 /.idea
 /elasticsearchdata/*
 /opensearchdata/*
+!/opensearchdata/nodes/.gitkeep
