@@ -79,7 +79,7 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Install Code Sniffer
 
-RUN git clone https://github.com/magento/marketplace-eqp.git ~/.composer/vendor/magento/marketplace-eqp
+RUN git clone https://github.com/magento/magento-coding-standard.git ~/.composer/vendor/magento/marketplace-eqp
 RUN cd ~/.composer/vendor/magento/marketplace-eqp && composer update && composer install
 RUN ln -s ~/.composer/vendor/magento/marketplace-eqp/vendor/bin/phpcs /usr/local/bin;
 
@@ -87,12 +87,12 @@ ENV PATH="/var/www/.composer/vendor/bin/:${PATH}"
 
 # Install XDebug
 
-RUN yes | pecl install xdebug-3.4.5 && \
+RUN yes | pecl install xdebug-3.5.0 && \
 	 echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.iniOLD
 
 # Install Mailpit
 
-RUN wget https://github.com/axllent/mailpit/releases/download/v1.27.8/mailpit-linux-amd64.tar.gz \
+RUN wget https://github.com/axllent/mailpit/releases/download/v1.29.0/mailpit-linux-amd64.tar.gz \
     && tar -xzvf mailpit-linux-amd64.tar.gz mailpit \
     && chmod +x ./mailpit\
     && mv ./mailpit /usr/local/bin/ \
