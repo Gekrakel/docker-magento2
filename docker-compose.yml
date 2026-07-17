@@ -14,7 +14,8 @@ services:
     environment:
       XDEBUG_CONFIG: "remote_host=localhost"
       PHP_IDE_CONFIG: "serverName=Docker"
-#      VIRTUAL_HOST: "example.localhost"
+      MESSENGER_TRANSPORT_DSN: "amqp://guest:guest@host.docker.internal:5672/%2f/messages"
+    #      VIRTUAL_HOST: "example.localhost"
     depends_on:
       - db
     links:

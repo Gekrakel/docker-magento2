@@ -4,3 +4,4 @@ src/
 /elasticsearchdata/*
 /opensearchdata/*
 !/opensearchdata/nodes/.gitkeep
+/data
